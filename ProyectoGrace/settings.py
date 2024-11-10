@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'formadepagos',
     'sedes',
     'pacientes',
-    'consultas'
+    'consultas',
+    'medidas'
 ]
 
 MIDDLEWARE = [

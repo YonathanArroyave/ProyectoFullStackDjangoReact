@@ -19,6 +19,7 @@ class Consulta(models.Model):
     envio_plan = models.BooleanField(blank=True, null=True, default=False)
     id_sede = models.ForeignKey(Sede, on_delete=models.SET_NULL, null=True, db_column='id_sede')
     id_forma_pago = models.ForeignKey(FormasPago, on_delete=models.SET_NULL, null=True, db_column='id_forma_pago')
+    nombrePaciente = Paciente.nombre
     tipo_consulta = models.TextField(max_length=10,
         choices=TIPOCONSULTA_CHOICES,
         default=PRESENCIAL)
@@ -26,3 +27,8 @@ class Consulta(models.Model):
     class Meta:
         managed = False
         db_table = 'consultas'
+    
+    def __str__(self):
+        # Formatear la fecha a un formato legible
+        fecha_formateada = self.fecha.strftime("%d-%m-%Y %H:%M")
+        return f"{self.id_paciente.nombre} {self.id_paciente.apellidos} - {fecha_formateada}"
