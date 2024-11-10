@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ DATABASES = {
         'HOST': 'aws-0-us-east-1.pooler.supabase.com',
         'NAME': 'postgres',
         'PORT': 6543,
-        'USER': 'postgres.mrpezofjffepmmaolitq',
+        'USER': 'postgres.vupdxqthifzfutvkpvom',
         'PASSWORD': config('DB_PASSWORD')
     }
 }
@@ -127,3 +128,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Avisamos al framewor que usaremos nuestro propio modelo de usuario para autenticarse
+AUTH_USER_MODEL = 'users.User'
