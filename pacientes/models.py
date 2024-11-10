@@ -27,4 +27,4 @@ class Paciente(models.Model):
         managed = False
         db_table = 'pacientes'
     def __str__(self):
-            return str(self.id_paciente)+" - "+ self.nombre + self.apellidos
+            return str(self.id_paciente)+" - "+ self.nombre +" "+ self.apellidos
