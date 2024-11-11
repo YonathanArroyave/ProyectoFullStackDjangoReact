@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',# pip install djangorestframework
+    'drf_yasg', #pip install drf-yasg
     'users',
     'formadepagos',
     'sedes',
