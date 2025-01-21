@@ -22,6 +22,7 @@ from drf_yasg import openapi #documentacion API
 from formadepagos.api.router import router_FormaDePago
 from        sedes.api.router import router_Sedes
 from    pacientes.api.router import router_Pacientes
+from    consultas.api.router import router_Consultas
 
 schema_view = get_schema_view(#propio de la documentacion de la api
    openapi.Info(
@@ -44,4 +45,5 @@ urlpatterns = [
     path('api/', include(router_FormaDePago.urls)),
     path('api/', include(router_Sedes.urls)),
     path('api/', include(router_Pacientes.urls)),
+    path('api/', include(router_Consultas.urls)),
 ]
