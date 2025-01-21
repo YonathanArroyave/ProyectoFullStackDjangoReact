@@ -23,6 +23,7 @@ from formadepagos.api.router import router_FormaDePago
 from        sedes.api.router import router_Sedes
 from    pacientes.api.router import router_Pacientes
 from    consultas.api.router import router_Consultas
+from      medidas.api.router import router_Medidas
 
 schema_view = get_schema_view(#propio de la documentacion de la api
    openapi.Info(
@@ -46,4 +47,5 @@ urlpatterns = [
     path('api/', include(router_Sedes.urls)),
     path('api/', include(router_Pacientes.urls)),
     path('api/', include(router_Consultas.urls)),
+    path('api/', include(router_Medidas.urls)),
 ]
