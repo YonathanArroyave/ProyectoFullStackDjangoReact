@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',# pip install djangorestframework
     'drf_yasg', #pip install drf-yasg
+    'corsheaders',#pip install django-cors-headers
     'users',
     'formadepagos',
     'sedes',
@@ -55,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',#se añada para dar permisos al fronted
+    'django.middleware.common.CommonMiddleware',#se añada para dar permisos al fronted
 ]
 
 ROOT_URLCONF = 'ProyectoGrace.urls'
@@ -147,3 +150,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Avisamos al framewor que usaremos nuestro propio modelo de usuario para autenticarse
 AUTH_USER_MODEL = 'users.User'
+
+#damos el permiso para que otras app usen el backend
+CORS_ALLOW_ALL_ORIGINS = True
