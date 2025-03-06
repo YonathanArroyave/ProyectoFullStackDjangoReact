@@ -1,32 +1,35 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast'; // Cambio de ToastContainer a Toaster
+import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import LogoutPage from './pages/LogoutPage';
-import Dashboard from './pages/Dashboard';
-import { Toaster } from 'react-hot-toast';
-import ProtectedRoute from './components/ProtectedRoute';
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <Toaster />
+    <BrowserRouter>
+      <Toaster // Componente actualizado
+        position="top-right"
+        toastOptions={{
+          className: '!bg-white !text-gray-800 dark:!bg-gray-700 dark:!text-gray-100',
+          duration: 3000
+        }}
+      />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
-              
-
             </ProtectedRoute>
-            
           }
         />
         <Route path="/logout" element={<LogoutPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

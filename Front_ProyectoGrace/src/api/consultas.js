@@ -1,46 +1,53 @@
-import api from './auth'; // Cliente Axios configurado con autenticación
+import api from './auth';
 
-// Función para obtener todas las consultas
 export const getConsultas = async () => {
   try {
     const response = await api.get('/consultas/');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener las consultas:', error);
-    throw error;
+    if (error.response?.status === 401) {
+      console.error('Autenticación requerida');
+      throw new Error('SESSION_EXPIRED');
+    }
+    console.error('Error en consultas:', error.message);
+    throw new Error('Error al obtener los datos');
   }
 };
 
-// Función para calcular estadísticas
 export const calculateStatistics = (consultas) => {
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth(); // Mes actual (0-11)
-  const currentYear = currentDate.getFullYear(); // Año actual
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
 
-  let totalAtendidosMes = 0;
-  let totalAtendidosAno = 0;
-  let totalRecursosMes = 0;
-  let totalRecursosAno = 0;
+  // Datos para el gráfico
+  const monthlyData = Array(12).fill().map((_, index) => ({
+    month: new Date(currentYear, index).toLocaleString('default', { month: 'short' }),
+    count: 0
+  }));
 
-  consultas.forEach((consulta) => {
-    const consultaFecha = new Date(consulta.fecha);
-    const consultaValor = parseFloat(consulta.valor) || 0;
+  const stats = consultas.reduce((acc, consulta) => {
+    const fecha = new Date(consulta.fecha);
+    const valor = parseFloat(consulta.valor) || 0;
+    const monthIndex = fecha.getMonth();
 
-    if (consultaFecha.getFullYear() === currentYear) {
-      totalAtendidosAno += 1;
-      totalRecursosAno += consultaValor;
+    if (fecha.getFullYear() === currentYear) {
+      acc.totalAtendidosAno += 1;
+      acc.totalRecursosAno += valor;
+      monthlyData[monthIndex].count += 1;
 
-      if (consultaFecha.getMonth() === currentMonth) {
-        totalAtendidosMes += 1;
-        totalRecursosMes += consultaValor;
+      if (fecha.getMonth() === currentMonth) {
+        acc.totalAtendidosMes += 1;
+        acc.totalRecursosMes += valor;
       }
     }
+    return acc;
+  }, {
+    totalAtendidosMes: 0,
+    totalAtendidosAno: 0,
+    totalRecursosMes: 0,
+    totalRecursosAno: 0,
+    monthlyData: monthlyData
   });
 
-  return {
-    totalAtendidosMes,
-    totalAtendidosAno,
-    totalRecursosMes,
-    totalRecursosAno,
-  };
+  return stats;
 };

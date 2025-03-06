@@ -3,7 +3,7 @@ import { Sun, Moon, Bell, User, Settings } from 'lucide-react';
 
 const DashboardHeader = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [notificationCount] = useState(3);
+  const [notificationCount] = useState(0);
 
   useEffect(() => {
     if (isDarkMode) {

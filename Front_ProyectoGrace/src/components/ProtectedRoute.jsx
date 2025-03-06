@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { refreshAccessToken, isAuthenticated } from '../api/auth';
+import { authService } from '../api/auth'; // Importación corregida
 
 const ProtectedRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -9,11 +9,9 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        if (!isAuthenticated()) throw new Error('No autenticado');
-        await refreshAccessToken(); // Intenta refrescar el token si es necesario
+        if (!authService.isAuthenticated()) throw new Error();
         setIsAuth(true);
       } catch (error) {
-        console.error('Error de autenticación:', error);
         setIsAuth(false);
       } finally {
         setLoading(false);
@@ -22,9 +20,8 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
-  if (loading) return <div>Cargando...</div>; // Muestra un indicador de carga
-  if (!isAuth) return <Navigate to="/" replace />;
-  return children;
+  if (loading) return <div className="h-screen flex items-center justify-center">Verificando sesión...</div>;
+  return isAuth ? children : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;
